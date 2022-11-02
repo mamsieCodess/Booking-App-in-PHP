@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
-    <link rel="stylesheet" href="/includes/css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@900&display=swap" rel="stylesheet">
@@ -68,10 +67,18 @@
 
     else{
 
-         require_once __DIR__ . "/template/comparisonsPage.php";
-         $password = $_POST['password'];
+         require_once __DIR__ . "/template/homePage.php";
     }
     ?>
+
+    
+<?php
+            require_once __DIR__. "/includes/hotelInfo.php";
+            require_once __DIR__. "/model/hotel.php";
+
+        
+
+        ?>
 
 
 </body>
