@@ -71,14 +71,7 @@
     }
     ?>
 
-    
-<?php
-            require_once __DIR__. "/includes/hotelInfo.php";
-            require_once __DIR__. "/model/hotel.php";
 
-        
-
-        ?>
 
 
 </body>

@@ -1,3 +1,9 @@
+<?php
+
+echo 'Hey';
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -71,6 +77,7 @@
         <label for="hotelChoice1">Hotel Choices</label>
         <br>
         <select name="hotelChoice1" id="hotelChoice1">
+            <!--will link these to $_SESSIONs and when clicked, they will get into an array that will be displayed on the booking page-->
             <option value=""></option>
             <option value="hotel1">Hotel1</option>
             <option value="hotel1">Hotel2</option>
