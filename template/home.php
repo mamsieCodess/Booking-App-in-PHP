@@ -33,10 +33,14 @@ include "./model/hotel.php"; //will be using the class
         }
         body{
             background-color: #EAE1E1;
+            
         }
        
        h1{
         text-align: center;
+       }
+       h2{
+        margin-left:20px;
        }
          .container{
             justify-content:center;
@@ -58,7 +62,7 @@ include "./model/hotel.php"; //will be using the class
             box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
         }
 
-        img{
+        .hotel-wrapper img{
             height:150px;
             width:100%;
 
@@ -81,22 +85,16 @@ include "./model/hotel.php"; //will be using the class
             background-color: #EAE1E1;
             cursor: pointer;
         }
-
-        
-       
         
     </style>
 </head>
 <body>
-
-
     
-<h1>Hotel Book Away</h1>
-<h3>Available hotels:</h3>
-
+<h1>Welcome, <?php echo $_POST['firstname'];?></h1>
+<h2>Available hotels: </h2>
 <section class="container">
 <?php
-foreach($_SESSION['hotels'] as $hotel){ //for every hotel object echo these
+foreach($_SESSION['hotels'] as $hotel){ //for every hotel object echo them in this struct
 
     echo '<div class="hotel-wrapper">
     <img src="./includes/images/' . $hotel->getImage() . '">

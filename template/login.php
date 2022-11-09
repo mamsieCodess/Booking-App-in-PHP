@@ -16,7 +16,7 @@ session_start();
         }
 
         body {
-            background-color: #EAE1E1;
+            background-image: url('includes/images/desktop2.jpg');
         }
 
         h1 {
@@ -34,27 +34,21 @@ session_start();
 
         .welcome-page {
             height: 500px;
-            width: 400px;
-            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-            background-image:url('includes/images/effel-tower.jpg');
+            max-width: 400px;
+            box-shadow: rgba(0, 0, 0, 0.9) 0px 3px 8px;
+            background-color: rgba(255, 255, 255);
             background-size:contain;
             opacity: 0.8;
             text-align: center;
-            
-           
+            padding:5px;
         }
         h2{
             font-size: 40px;
-            background-color: rgba(255, 255, 255,0.8);
-            margin: 10px 5px;
-
-
+            margin: 200px 5px 0px;
         }
 
         #welcome-text{
            font-size: 20px;
-           background-color: rgba(255, 255, 255,0.8);
-           margin: 240px 5px 0px;
         }
         form {
             width: 400px;
@@ -62,7 +56,8 @@ session_start();
             margin: 0 auto;
             text-align: center;
             padding: 50px;
-            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            background-color: rgba(255, 255, 255);
+            box-shadow: rgba(0, 0, 0, 0.9) 0px 3px 8px;
         }
 
         input {
@@ -93,11 +88,13 @@ session_start();
         a {
             text-decoration: none;
         }
+    
     </style>
 
 </head>
 
 <body>
+
     <h1>Hotel Book Away</h1>
 
     <div class="container">
