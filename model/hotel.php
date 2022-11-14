@@ -1,6 +1,7 @@
 <?php
 class Hotel{
     //fields
+    private $id;
     private $name;
     private $location;
     private $features;
@@ -8,7 +9,8 @@ class Hotel{
     private $image;
 
     //constructor
-    public function __construct($name,$location,$features,$rate,$image){
+    public function __construct($id,$name,$location,$features,$rate,$image){
+        $this->id = $id;
         $this->name = $name;
         $this->location = $location;
         $this->features = $features;
@@ -17,6 +19,14 @@ class Hotel{
     }
     
     //methods
+    public function setId($id){
+        $this->id = $id;
+        return $this;
+       } 
+       public function getId(){
+       return $this->id;
+       } 
+
    public function setName($name){
     $this->name = $name;
     return $this;
