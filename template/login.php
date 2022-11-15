@@ -1,5 +1,7 @@
 <?php
 session_start();
+
+$firstname = $POST['firstname'];
 ?>
 
 <!DOCTYPE html>

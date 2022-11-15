@@ -1,6 +1,18 @@
 <?php
 session_start();
 include "./model/hotel.php"; //will be using the class
+include "./includes/config/database.php";
+
+
+
+
+
+//get the accociatve array to use from the $result of every hotel entry
+
+$hotels = $result->fetch_all(MYSQLI_BOTH); //these are the rows as associative arrays, indicate as which type as a parameter
+
+mysqli_free_result($result);
+mysqli_close($conn);
 
 ?>
 
@@ -78,6 +90,11 @@ include "./model/hotel.php"; //will be using the class
             background-color: #EAE1E1;
             cursor: pointer;
         }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
     </style>
 </head>
 
@@ -88,25 +105,13 @@ include "./model/hotel.php"; //will be using the class
     <section class="container">
 
         <?php
-        //create a database connection
 
-        $conn = new mysqli('localhost', 'root', 'root', 'booking_app');
 
-        //create a query to get the hotel data from table called hotels
-        $sql = "SELECT `id`, `name`, `location`, `features`, `rate`,`image` FROM `hotels`";
-
-        $result = mysqli_query($conn, $sql); //made the query to the database
-
-        //get the accociatve array to use from the $result of every hotel entry
-
-        $hotels = $result->fetch_all(MYSQLI_BOTH); //these are the rows as associative arrays, indicate as which type as a parameter
-
-        foreach ($hotels as $hotel) {
 
             $_SESSION['hotels'] = []; //make an empty array that can be accessed anywhere regardless of scope
 
             foreach ($hotels as $hotel) { //make objects out of the data using the class
-                    
+
                 $newHotel = new Hotel( //the parameters is the value as per column in a row of entry
 
                     $hotel['id'],
@@ -119,26 +124,31 @@ include "./model/hotel.php"; //will be using the class
 
                 array_push($_SESSION['hotels'], $newHotel); //every hotel object newly created is pushed into the session array
             } //can now use this array of objects
-        }
+         ?>
 
-        foreach($_SESSION['hotels'] as $hotel){ //for every hotel object echo them out in this structure
-    
-            echo '<div class="hotel-wrapper">
-            <img src="./includes/images/' . $hotel->getImage() . '">
-            <h4>'.$hotel->getName().'</h4>
-            <div class="features">';
-                foreach($hotel->getFeatures() as $feature){
-                    echo '<ul><li>'.$feature.'</li></ul>';
-                };
-               echo ' <p> R '.$hotel->getRate().'</p>
-            </div>
-            <input type="submit" name="select" value="select">
+
+        <?php foreach ($_SESSION['hotels'] as $hotel) : ?>
+
+            <div class="hotel-wrapper">
+                <img src="<?php echo $hotel->getImage()?>">
             
-        </div>';
-    }
-     
 
-        ?>
+                <h4> <?php echo $hotel->getName() ?></h4>
+
+                <div class="features">
+                    <ul>
+                        <?php foreach (explode(',', $hotel->getFeatures()) as $feature) : ?>
+                            <li> <?php echo $feature; ?> </li>
+                        <?php endforeach; ?>
+                    </ul>
+
+                    <p>R <?php echo $hotel->getRate() ?></p>
+
+                </div>
+                <button id="select-button"><a href="template/book.php?id=<?php echo $hotel->getId() ?>">Select</a></button>
+            </div>
+
+        <?php endforeach; ?>
 
 
 

@@ -1,4 +1,6 @@
 <?php
+
+//link to the database and echo them in the app ?????
 class User{
     //fields
     private $firstname;
