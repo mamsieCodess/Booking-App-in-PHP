@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 require_once __DIR__ .  "./../model/booking.php"; //will be using the class
 
@@ -33,7 +34,11 @@ if (isset($_GET['id'])) {
         $hotel['image']
     );
 }
+
+
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -75,24 +80,25 @@ if (isset($_GET['id'])) {
 </head>
 
 <body>
-    
 
-        <h2>Your booking:</h2>
-        <div class="container">
-            <img src="<?php echo $newBooking->getImage() ?>">
-            <h3><?php echo $newBooking->getName(); ?></h3>
-            <h4>Features of the hotel:</h4>
-            <ul>
-                <?php foreach (explode(',', $newBooking->getFeatures()) as $feature) : ?>
-                    <li><?php echo $feature ?></li>
-                <?php endforeach ?>
-            </ul>
-            <h4>Booked for these days:</h4>
-            <!--make an input in the login and display it here-->
+    <h2 style="text-align: center;">Your hotel of choice:</h2>
+    <div class="container">
+        <img src="<?php echo $newBooking->getImage() ?>">
+        <h3><?php echo $newBooking->getName(); ?></h3>
+        <h4>Features of the hotel:</h4>
+        <ul>
+            <?php foreach (explode(',', $newBooking->getFeatures()) as $feature) : ?>
+                <li><?php echo $feature ?></li>
+            <?php endforeach ?>
+        </ul>
 
-            <h4>Total amount due is: R <?php echo $newBooking->getRate() ?></h4>
-            <button id="select-button" type="submit" name="book" style="margin-left: 45%"><a href="#" style="text-decoration: none; color:black;" >Book</a></button>
-        </div>
+       
+            <h4>Total amount due is: R <?php echo $newBooking->getRate() * $calculate ?> </h4>
+        
+        <button id="select-button"><a href="template/book.php?id=<?php echo $hotel->getId() ?>">Download pdf</a></button>
+
+    </div>
+   
 
 </body>
 

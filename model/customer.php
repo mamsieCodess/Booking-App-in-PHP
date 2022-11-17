@@ -1,7 +1,7 @@
 <?php
 
 //link to the database and echo them in the app ?????
-class User{
+class Customer{
     //fields
     private $firstname;
     private $surname;

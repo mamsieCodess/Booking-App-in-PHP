@@ -1,7 +1,41 @@
 <?php
-session_start();
 
-$firstname = $POST['firstname'];
+$login = 0;
+$invalid = 0;
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    include "/MAMP/htdocs/OOP-Booking-App/includes/config/database.php";
+    $firstname = $_POST['firstname'];
+    $lastname = $_POST['lastname'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    
+
+    //checking if this particular customer with this email and password exists
+    $sql = "SELECT `*` FROM `customers` WHERE `email` = '$email' AND `password` ='$password' ";
+
+    $result = mysqli_query($conn, $sql);
+
+    if ($result) {
+       
+        $num = mysqli_num_rows($result);
+        if ($num > 0) {
+            $login = 1;
+            //once the login is successful, the seesion starts
+
+            session_start();
+            $_SESSION['firstname'] = $firstname;
+            $_SESSION['lastname'] = $lastname;
+            $_SESSION['email'] = $email;
+            $_SESSION['password'] = $password;
+            header('location:homepage.php'); //header function redirects you to the next page if the login is sucessful
+
+        } else {
+            $invalid = 1;
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -11,14 +45,14 @@ $firstname = $POST['firstname'];
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login page</title>
+    <title>Login Page</title>
     <style>
         * {
             box-sizing: border-box;
         }
 
         body {
-            background-image: url('includes/images/desktop2.jpg');
+            background-image: url('../includes/images/desktop2.jpg');
         }
 
         h1 {
@@ -39,19 +73,21 @@ $firstname = $POST['firstname'];
             max-width: 400px;
             box-shadow: rgba(0, 0, 0, 0.9) 0px 3px 8px;
             background-color: rgba(255, 255, 255);
-            background-size:contain;
+            background-size: contain;
             opacity: 0.8;
             text-align: center;
-            padding:5px;
+            padding: 5px;
         }
-        h2{
+
+        h2 {
             font-size: 40px;
             margin: 200px 5px 0px;
         }
 
-        #welcome-text{
-           font-size: 20px;
+        #welcome-text {
+            font-size: 20px;
         }
+
         form {
             width: 400px;
             height: 500px;
@@ -90,48 +126,52 @@ $firstname = $POST['firstname'];
         a {
             text-decoration: none;
         }
-    
     </style>
 
 </head>
 
 <body>
+    <?php
+if($login){
+       echo "You are succesffuly logged it";
+    }
+    ?>
+
+<?php
+if($invalid){
+      echo "Incorrect details";
+    }
+    ?>
 
     <h1>Hotel Book Away</h1>
 
     <div class="container">
 
         <div class="welcome-page">
-            <h2>Welcome</h2>
+            <h2>Welcome back</h2>
             <p id="welcome-text">Book your favourite hotel in your favorite city within minutes
             </p>
         </div>
         <div class="form-wrapper">
 
-            <form action="" method="POST">
-                <p>Sign-up:</p>
-                <input type="text" name="firstname" placeholder="Name:" required>
-                <br><br>
-                <input type="text" name="surname" placeholder="Surname:" required>
-                <br><br>
+            <form action="login.php" method="POST"> <!--action is simply where the data is going to be processed at-->
+                <p>Login:</p>
+            
                 <input type="email" name="email" placeholder="Email" required>
                 <br><br>
                 <input type="password" name="password" placeholder="Password:" required>
                 <br><br>
-                <input type="submit" name="register" value="Register" id="submit-button">
+                <input type="submit" name="register" value="Login" id="submit-button">
                 <br><br>
-                <p>Have an account? <a href="#">Login</a></p>
+                <p>Don't have an acount? <a href="">Sign-up</a></p>
+
+                
 
             </form>
         </div>
 
     </div>
 
-
-    <?php
-
-
-    ?>
 </body>
 
 </html>
