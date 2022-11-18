@@ -80,7 +80,7 @@ if (isset($_GET['id'])) {
 
 <body>
 
-    <h2 style="text-align: center;">Your hotel of choice:</h2>
+    <h2 style="text-align: center;">Booking Confirmation:</h2>
     <div class="container">
         <img src="<?php echo $newBooking->getImage() ?>">
         <h3><?php echo $newBooking->getName(); ?></h3>
