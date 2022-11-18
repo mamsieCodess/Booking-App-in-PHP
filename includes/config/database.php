@@ -3,9 +3,14 @@
 
        $conn = new mysqli('localhost', 'root', 'root', 'booking_app');
 
-       if(!$conn){
+       if($conn){
+              echo 'Connected successfully';
+       }else{
               die(mysqli_error($conn));
        }
+
+
+      
 
 
 ?>

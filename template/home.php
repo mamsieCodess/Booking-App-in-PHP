@@ -1,15 +1,18 @@
+@@ -1,161 +0,0 @@
 <?php
 session_start();
-if (!isset($_SESSION['email'])) {
-    header('location:login.php'); //if this page is accessed before loggin in, redirect back to the login page
+include "./model/hotel.php"; //will be using the class
+include "./includes/config/database.php";
+
+if($conn){
+    echo 'Connected successfully';
+}else{
+    echo 'Error';
 }
-include "../model/hotel.php"; //will be using the class
-include "../includes/config/database.php";
 
-//create a query to get the hotel data from table called hotels
-$sql = "SELECT `id`, `name`, `location`, `features`, `rate`,`image` FROM `hotels`";
 
-$result = mysqli_query($conn, $sql); //made the query to the database
+
+
 
 //get the accociatve array to use from the $result of every hotel entry
 
@@ -19,6 +22,7 @@ mysqli_free_result($result);
 mysqli_close($conn);
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,7 +30,7 @@ mysqli_close($conn);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viewing page</title>
+    <title>Home page</title>
     <style>
         * {
             box-sizing: border-box;
@@ -98,51 +102,44 @@ mysqli_close($conn);
             text-decoration: none;
             color: black;
         }
-
-        .logout-button {
-            left: 40%;
-            font-weight: bolder;
-            border: none;
-            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-            height: 30px;
-            margin: 0 auto;
-            width: fit-content;
-            padding: 5px;
-
-        }
     </style>
 </head>
 
 <body>
 
-
-    <h1>Welcome <?php echo $_SESSION['firstname']; ?></h1>
-
-    <div class="logout-button">
-        <a href="logout.php">Log Out</a>
-    </div>
-
+    <h1>Welcome, <?php echo $_POST['firstname']; ?></h1>
+    <h2>Available hotels: </h2>
     <section class="container">
+
         <?php
-        $_SESSION['hotels'] = []; //make an empty array that can be accessed anywhere regardless of scope
-        foreach ($hotels as $hotel) { //make objects out of the data using the class
-            $newHotel = new Hotel( //the parameters is the value as per column in a row of entry
 
-                $hotel['id'],
-                $hotel['name'],
-                $hotel['location'],
-                $hotel['features'],
-                $hotel['rate'],
-                $hotel['image']
-            );
 
-            array_push($_SESSION['hotels'], $newHotel); //every hotel object newly created is pushed into the session array
-        } //can now use this array of objects
-        
-        foreach ($_SESSION['hotels'] as $hotel) : ?>
+
+            $_SESSION['hotels'] = []; //make an empty array that can be accessed anywhere regardless of scope
+
+            foreach ($hotels as $hotel) { //make objects out of the data using the class
+
+                $newHotel = new Hotel( //the parameters is the value as per column in a row of entry
+
+                    $hotel['id'],
+                    $hotel['name'],
+                    $hotel['location'],
+                    $hotel['features'],
+                    $hotel['rate'],
+                    $hotel['image']
+                );
+
+                array_push($_SESSION['hotels'], $newHotel); //every hotel object newly created is pushed into the session array
+            } //can now use this array of objects
+         ?>
+
+
+        <?php foreach ($_SESSION['hotels'] as $hotel) : ?>
 
             <div class="hotel-wrapper">
-                <img src="<?php echo $hotel->getImage() ?>">
+                <img src="<?php echo $hotel->getImage()?>">
+            
+
                 <h4> <?php echo $hotel->getName() ?></h4>
 
                 <div class="features">
@@ -155,15 +152,17 @@ mysqli_close($conn);
                     <p>R <?php echo $hotel->getRate() ?></p>
 
                 </div>
-                <button id="select-button"><a href="book-hotel.php?id=<?php echo $hotel->getId() ?>">Select</a></button>
+                <button id="select-button"><a href="template/book.php?id=<?php echo $hotel->getId() ?>">Select</a></button>
             </div>
 
         <?php endforeach; ?>
 
-        
+
+
+
+
+
     </section>
-
-
 </body>
 
 </html>

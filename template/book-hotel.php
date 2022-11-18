@@ -37,6 +37,8 @@ if (isset($_GET['id'])) {
 
 
 
+
+
 ?>
 
 
@@ -92,12 +94,30 @@ if (isset($_GET['id'])) {
             <?php endforeach ?>
         </ul>
 
+        <?php
+        $_SESSION['startDate'] = $_POST['startDate'];
+        $_SESSION['endDate'] = $_POST['endDate'];
+
+        if(array_key_exists('submit',$_POST)){ 
+            $calculate =  $newBooking->calculateDays($_SESSION['startDate'], $_SESSION['endDate']);
+            
+            $amount = $newBooking->getRate() * $calculate;
+            $_SESSION['amount-due'] = $amount;
+        }
+        ?>
+        <form action="" method="POST" style="text-align:center">
+            <label>Check-in:</label> <input type="date" name="startDate">
+            <label>Check-out:</label>
+            <input type="date" name="endDate">
+            <h4>Total amount due is: R <?php echo $newBooking->getRate() * $calculate. ' for '. $calculate. ' nights'?> </h4>
+            <input type="submit" value="Calculate" name="submit">
+        </form>
        
-            <h4>Total amount due is: R <?php echo $newBooking->getRate() * $calculate ?> </h4>
-        
-        <button id="select-button"><a href="template/book.php?id=<?php echo $hotel->getId() ?>">Download pdf</a></button>
 
     </div>
+    <?php
+
+    ?>
    
 
 </body>
