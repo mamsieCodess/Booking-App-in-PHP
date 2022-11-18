@@ -25,7 +25,8 @@ if (isset($_GET['id'])) {
 
     //make a new Booking object with the database
 
-    $newBooking = new Booking(
+    $newHotel = new Hotel( //the parameters is the value as per column in a row of entry
+
         $hotel['id'],
         $hotel['name'],
         $hotel['location'],
@@ -34,10 +35,6 @@ if (isset($_GET['id'])) {
         $hotel['image']
     );
 }
-
-
-
-
 
 ?>
 
@@ -54,18 +51,15 @@ if (isset($_GET['id'])) {
         * {
             box-sizing: border-box;
         }
-        body{
-            background-color: #EAE1E1;
-        }
 
         .container {
             width: 400px;
             height: 500px;
-            margin: 20px auto;
-            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            background-color: antiquewhite;
+            margin: 0 auto;
         }
 
-        .container > img {
+        img {
             height: 200px;
             width: 100%;
         }
@@ -81,58 +75,10 @@ if (isset($_GET['id'])) {
         h4 {
             margin-left: 10px;
         }
-        .menu {
-            display: flex;
-            height: 50px;
-            justify-content: flex-end;
-            box-shadow: rgba(0, 0, 0, 0.24) 0px 2px;
-
-        }
-
-        .menu > div {
-            font-weight: bolder;
-            border: none;
-            width: fit-content;
-            padding: 15px;
-            margin-left:15px;
-        }
-        .menu a{
-            text-decoration: none;
-            color:black;
-        }
-        .menu>div:hover {
-            background-color: #eee7e7;
-            cursor: pointer;
-        }
-
-        .logo {
-            display: flex;
-            justify-content: center;
-        }
-        footer{
-            height:150px;
-            display: flex;
-            justify-content: center;
-            padding-top:120px;
-            background-color: rgba(0, 0, 0, 0.15);
-        }
     </style>
 </head>
 
 <body>
-
-<header>
-        <div class="logo"><img src="../includes/images/M (1).png" width='200px'; id="logo" src="" alt=""></div>
-        <div class="menu">
-        <div><a href="#"> Search button</a></div>
-            <div><a href="#">Profile</a></div>
-            <div class="logout-button">
-                <a href="logout.php">Log Out</a>
-            </div>
-        </div>
-
-    </header>
-  
 
     <h2 style="text-align: center;">Your hotel of choice:</h2>
     <div class="container">
@@ -149,9 +95,9 @@ if (isset($_GET['id'])) {
         $_SESSION['startDate'] = $_POST['startDate'];
         $_SESSION['endDate'] = $_POST['endDate'];
 
-        if (array_key_exists('submit', $_POST)) {
+        if(array_key_exists('submit',$_POST)){ 
             $calculate =  $newBooking->calculateDays($_SESSION['startDate'], $_SESSION['endDate']);
-
+            
             $amount = $newBooking->getRate() * $calculate;
             $_SESSION['amount-due'] = $amount;
         }
@@ -160,19 +106,16 @@ if (isset($_GET['id'])) {
             <label>Check-in:</label> <input type="date" name="startDate">
             <label>Check-out:</label>
             <input type="date" name="endDate">
-            <h4>Total amount due is: R <?php echo $newBooking->getRate() * $calculate . ' for ' . $calculate . ' nights' ?> </h4>
+            <h4>Total amount due is: R <?php echo $newBooking->getRate() * $calculate. ' for '. $calculate. ' nights'?> </h4>
             <input type="submit" value="Calculate" name="submit">
         </form>
-
+       
 
     </div>
+    <?php
 
-
-    <footer>
-
-        <div class="footer-text">Copyright 2022 Mamo Moloi</div>
-
-    </footer>
+    ?>
+   
 
 </body>
 

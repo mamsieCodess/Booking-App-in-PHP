@@ -26,7 +26,7 @@ mysqli_close($conn);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viewing page</title>
+    <title>Home Page</title>
     <style>
         * {
             box-sizing: border-box;
@@ -79,17 +79,16 @@ mysqli_close($conn);
             text-align: justify;
         }
 
-        #select-button {
+        #view-button {
             height: 25px;
             left: 40%;
             font-weight: bolder;
             border: none;
             box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
             height: 30px;
-
         }
 
-        #select-button:hover {
+        #view-button:hover {
             background-color: #EAE1E1;
             cursor: pointer;
         }
@@ -194,11 +193,12 @@ mysqli_close($conn);
                         <?php endforeach; ?>
                     </ul>
 
-                    <p>R <?php echo $hotel->getRate() ?></p>
+                    <p>R <?php echo $hotel->getRate() ?> per night pp</p>
 
                 </div>
-                <button id="select-button"><a href="book-hotel.php?id=<?php echo $hotel->getId() ?>">Select</a></button>
+                <button id="view-button"><a href="view-hotel.php?id=<?php echo htmlspecialchars($hotel->getId())?>">View</a></button> <!--click 3 times-->
             </div>
+           
 
         <?php endforeach; ?>
 
