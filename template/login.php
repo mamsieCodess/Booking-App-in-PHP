@@ -52,8 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         body {
-            background-image: url('../includes/images/desktop2.jpg');
-        }
+            background-color: #EAE1E1;
+                }
 
         h1 {
             text-align: center;
@@ -71,21 +71,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .welcome-page {
             height: 500px;
             max-width: 400px;
-            box-shadow: rgba(0, 0, 0, 0.9) 0px 3px 8px;
-            background-color: rgba(255, 255, 255);
-            background-size: contain;
-            opacity: 0.8;
             text-align: center;
             padding: 5px;
+            margin-right:20px;
         }
 
         h2 {
             font-size: 40px;
             margin: 200px 5px 0px;
+            background-color: #EAE1E1;
         }
 
         #welcome-text {
             font-size: 20px;
+            background-color: #EAE1E1;
         }
 
         form {
@@ -94,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             margin: 0 auto;
             text-align: center;
             padding: 50px;
-            background-color: rgba(255, 255, 255);
+            background-color: #EAE1E1;
             box-shadow: rgba(0, 0, 0, 0.9) 0px 3px 8px;
         }
 
@@ -126,6 +125,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         a {
             text-decoration: none;
         }
+        header{
+            display: flex;
+            justify-content: center;
+        }
     </style>
 
 </head>
@@ -143,13 +146,15 @@ if($invalid){
     }
     ?>
 
-    <h1>Hotel Book Away</h1>
+<header>
+<div class="logo"><img width='250px' id="logo" src="../includes/images/M (1).png" alt=""></div>
+</header>
 
     <div class="container">
 
         <div class="welcome-page">
             <h2>Welcome back</h2>
-            <p id="welcome-text">Book your favourite hotel in your favorite city within minutes
+            <p id="welcome-text">Login to book your favourite hotel in your favorite city within minutes
             </p>
         </div>
         <div class="form-wrapper">

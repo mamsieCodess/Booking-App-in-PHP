@@ -99,28 +99,70 @@ mysqli_close($conn);
             color: black;
         }
 
-        .logout-button {
-            left: 40%;
-            font-weight: bolder;
-            border: none;
-            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-            height: 30px;
-            margin: 0 auto;
-            width: fit-content;
-            padding: 5px;
+        .menu {
+            display: flex;
+            height: 50px;
+            justify-content: flex-end;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 2px;
 
         }
+
+        .menu > div {
+            font-weight: bolder;
+            border: none;
+            width: fit-content;
+            padding: 15px;
+            margin-left:15px;
+        }
+
+        .menu>div:hover {
+            background-color: #eee7e7;
+            cursor: pointer;
+        }
+
+        .logo {
+            display: flex;
+            justify-content: center;
+        }
+        footer{
+            height:150px;
+            display: flex;
+            justify-content: center;
+            padding-top:120px;
+            background-color: rgba(0, 0, 0, 0.15);
+        }
+        .menu a{
+            text-decoration: none;
+            color:black;
+        }
+        input{
+            border: none;
+            height:25px;
+            padding: 0 5px;
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+      
+       
     </style>
 </head>
 
-<body>
 
+<body>
+    <header>
+        <div class="logo"><img width='200px' id="logo" src="../includes/images/M (1).png" alt=""></div>
+        <div class="menu">
+            <div><input type="search" name="search" placeholder="search a hotel ..."></div>
+            <div><a href="#">Profile</a></div>
+            <div class="logout-button">
+                <a href="logout.php">Log Out</a>
+            </div>
+        </div>
+
+    </header>
 
     <h1>Welcome <?php echo $_SESSION['firstname']; ?></h1>
 
-    <div class="logout-button">
-        <a href="logout.php">Log Out</a>
-    </div>
+
 
     <section class="container">
         <?php
@@ -138,7 +180,7 @@ mysqli_close($conn);
 
             array_push($_SESSION['hotels'], $newHotel); //every hotel object newly created is pushed into the session array
         } //can now use this array of objects
-        
+
         foreach ($_SESSION['hotels'] as $hotel) : ?>
 
             <div class="hotel-wrapper">
@@ -160,10 +202,14 @@ mysqli_close($conn);
 
         <?php endforeach; ?>
 
-        
+
     </section>
 
+<footer>
 
+    <div class="footer-text">Copyright  2022 Mamo Moloi</div>
+
+</footer>
 </body>
 
 </html>
