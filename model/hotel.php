@@ -65,5 +65,20 @@ class Hotel{
    return $this->image;
    }
 
+   function calculateDays($startDate, $endDate) {
+
+    // Calculating the difference in timestamps
+    $difference = strtotime($startDate) - strtotime($endDate);
+
+    // 1 day = 24 hours
+    // 24 * 60 * 60 = 86400 seconds
+    return abs(round($difference / 86400));
+}
+
+function amountDue($rate,$days){
+    return $rate * $days;
+}
+
+
 }
 ?>

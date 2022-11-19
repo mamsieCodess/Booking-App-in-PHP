@@ -1,28 +1,54 @@
 <?php
 
-include "hotel.php";
 
-class Booking extends Hotel{
+class Booking {
+    private $customerId;
+    private $hotelId;
+    private $checkinDate;
+    private $checkoutDate;
 
-
-    //make the inputs
-    //store the in $startDate and $endDate then stores session variables
-    //then use at the booking page
-
-    function calculateDays($startDate, $endDate) {
-
-        // Calculating the difference in timestamps
-        $difference = strtotime($startDate) - strtotime($endDate);
-    
-        // 1 day = 24 hours
-        // 24 * 60 * 60 = 86400 seconds
-        return abs(round($difference / 86400));
+    function __construct($customerId,$hotelId,$checkinDate,$checkoutDate)
+    {
+        $this->customerId = $customerId;
+        $this->hotelId = $hotelId;
+        $this->checkinDate = $checkinDate;
+        $this->checkoutDate = $checkoutDate;
+    }
+    public function setCustomerId($customerId){
+        $this->customerId = $customerId;
+        return $this;
     }
 
-    function amountDue($rate,$days){
-        return $rate * $days;
+    public function getCustomerId(){
+        return $this->customerId;
     }
-   
 
+    public function setHotelId($hotelId){
+        $this->hotelId = $hotelId;
+        return $this;
+    }
+
+    public function getHotelId(){
+        return $this->hotelId;
+    }
+
+    public function setCheckinDate($checkinDate){
+        $this->checkinDate = $checkinDate;
+        return $this;
+    }
+
+    public function getCheckinDate(){
+        return $this->checkinDate;
+    }
+
+    public function setCheckoutDate($checkoutDate){
+        $this->checkoutDate = $checkoutDate;
+        return $this;
+    }
+
+    public function getCheckoutDate(){
+        return $this->checkoutDate;
+    }
 };
+
 ?>

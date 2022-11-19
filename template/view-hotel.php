@@ -1,15 +1,13 @@
 <?php
 session_start();
 
-require_once __DIR__ .  "./../model/booking.php"; //will be using the class
+require_once __DIR__ .  "./../model/hotel.php"; //will be using the class
 
 //using a get request to link the data of the selected object
 
 if (isset($_GET['id'])) {
 
-    //create a database connection
-
-    $conn = new mysqli('localhost', 'root', 'root', 'booking_app');
+    include "../includes/config/database.php";
 
     $id = mysqli_escape_string($conn, $_GET['id']);
 
@@ -20,12 +18,9 @@ if (isset($_GET['id'])) {
 
     $hotel = $result->fetch_assoc();
 
-    mysqli_free_result($result);
-    mysqli_close($conn);
 
     //make a new Booking object with the database
-
-    $newBooking = new Booking(
+    $newHotel = new Hotel(
         $hotel['id'],
         $hotel['name'],
         $hotel['location'],
@@ -34,13 +29,7 @@ if (isset($_GET['id'])) {
         $hotel['image']
     );
 }
-
-
-
-
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -139,19 +128,20 @@ if (isset($_GET['id'])) {
         #make-booking-button {
             font-weight: bolder;
             border: none;
+            background-color: rgb(173, 161, 161);
             box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-            height: 45px;
-            width: 400px;
         }
 
-        #make-booking-button>a {
+        #make-booking-button > a {
             text-decoration: none;
             color: black;
+            font-size: large;
+            padding: 0 50px;
         }
 
         #make-booking-button:hover {
             cursor: pointer;
-            background-color: white;
+            background-color: #EAE1E1;
 
         }
 
@@ -164,11 +154,10 @@ if (isset($_GET['id'])) {
 </head>
 
 <body>
-
     <header>
         <div class="logo"><img src="../includes/images/M (1).png" width='200px' ; id="logo" src="" alt=""></div>
         <div class="menu">
-            <div><a href="#">Profile</a></div>
+            <div><a href="profile.php">Profile</a></div>
             <div class="logout-button">
                 <a href="logout.php">Log Out</a>
             </div>
@@ -180,32 +169,32 @@ if (isset($_GET['id'])) {
     <h2 style="text-align: center;">Your hotel of choice:</h2>
 
     <div class="container">
-        <img src="<?php echo $newBooking->getImage() ?>">
-        <h3><?php echo $newBooking->getName(); ?></h3>
+        <img src="<?php echo $newHotel->getImage() ?>">
+        <h3><?php echo $newHotel->getName(); ?></h3>
         <h4>Features of the hotel:</h4>
         <ul>
-            <?php foreach (explode(',', $newBooking->getFeatures()) as $feature) : ?>
+            <?php foreach (explode(',', $newHotel->getFeatures()) as $feature) : ?>
                 <li><?php echo $feature ?></li>
             <?php endforeach ?>
         </ul>
 
         <?php
-        ///NOTE --> MAKE THIS AS A HOTEL OBEJCT THEN MAKE THE NEXT PAGE THE NEW BOOKING ONE
-        $_SESSION['startDate'] = $_POST['startDate'];
+        
+        $_SESSION['startDate'] = $_POST['startDate']; //session data will be used next page
         $_SESSION['endDate'] = $_POST['endDate'];
 
         if (array_key_exists('submit', $_POST)) {
-            $calculate =  $newBooking->calculateDays($_SESSION['startDate'], $_SESSION['endDate']);
+            $calculate =  $newHotel->calculateDays($_SESSION['startDate'], $_SESSION['endDate']);
 
-            $amount = $newBooking->getRate() * $calculate;
-            $_SESSION['amount-due'] = $amount;
+            $amount = $newHotel->getRate() * $calculate;
+            $_SESSION['amount-due'] = $amount;//store it in a session so that it can be accessed on the next page
         }
         ?>
         <form action="" method="POST" style="text-align:center">
-            <label>Check-in:</label> <input type="date" name="startDate">
+            <label>Check-in:</label> <input type="date" name="startDate" required>
             <label>Check-out:</label>
-            <input type="date" name="endDate">
-            <h4>Total amount due is: R <?php echo $newBooking->getRate() * $calculate . ' for ' . $calculate . ' nights' ?> </h4>
+            <input type="date" name="endDate" required>
+            <h4>Total amount due is: R <?php echo $newHotel->getRate() * $calculate . ' for ' . $calculate . ' nights' ?> </h4>
             <input type="submit" id="calculate-button" value="Calculate" name="submit">
         </form>
     </div>
@@ -213,8 +202,8 @@ if (isset($_GET['id'])) {
     <div class="form2">
         <form action="homepage" method="GET" id="form2">
         
-            <button id="make-booking-button"><a href="booking-page.php?id=<?php echo htmlspecialchars($newBooking->getId())?>">Make a booking</a></button>
-
+            <button id="make-booking-button"><a href="booking-page.php?id=<?php echo htmlspecialchars($newHotel->getId())?>">Book</a></button>
+            
         </form>
     </div>
 

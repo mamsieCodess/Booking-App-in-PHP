@@ -151,7 +151,7 @@ mysqli_close($conn);
         <div class="logo"><img width='200px' id="logo" src="../includes/images/M (1).png" alt=""></div>
         <div class="menu">
             <div><input type="search" name="search" placeholder="search a hotel ..."></div>
-            <div><a href="#">Profile</a></div>
+            <div><a href="profile.php">Profile</a></div>
             <div class="logout-button">
                 <a href="logout.php">Log Out</a>
             </div>
