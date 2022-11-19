@@ -1,13 +1,12 @@
 <?php
 session_start();
 
-require_once __DIR__ .  "./../model/hotel.php"; //will be using the class
+require_once __DIR__ .  "./../model/hotel.php";
 include "./../model/booking.php";
-//using a get request to link the data of the selected object
 
 if (isset($_GET['id'])) {
 
-    //create a database connection
+    //REPLACE ALL OF THIS WITH SESSION DATA !!!!!!!
 
     include "../includes/config/database.php";
 
@@ -64,7 +63,7 @@ if (isset($_GET['id'])) {
 
         }
 
-        .image-container > img {
+        .image-container>img {
             height: 200px;
             width: 100%;
         }
@@ -172,6 +171,7 @@ if (isset($_GET['id'])) {
 
         $newBooking = new Booking($customerId, $hotelId, $checkIn, $checkOut);
         //then using then booking object to insert the data in the database
+
         $customerId = $newBooking->getCustomerId();
         $hotelId = $newBooking->getHotelId();
         $checkIn = $newBooking->getCheckinDate();

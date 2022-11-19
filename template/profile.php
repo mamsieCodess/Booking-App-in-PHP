@@ -1,3 +1,8 @@
+<?php
+session_start();
+//this page will be used to update and delete info from the database
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 

@@ -1,24 +1,23 @@
 <?php
 session_start();
+
+/*if there is no session variable storing the email data, then redirect the user to
+the login page*/
 if (!isset($_SESSION['email'])) {
-    header('location:login.php'); //if this page is accessed before loggin in, redirect back to the login page
+    header('location:login.php');
 }
-include "../model/hotel.php"; //will be using the class
+//if the email is set and found, then include these the database and the hotel class file
+include "../model/hotel.php";
 include "../includes/config/database.php";
 
-//create a query to get the hotel data from table called hotels
+/*then create and make a query hotels table in the database and after the results are found
+ make an associative array of all the rows of data found on the table using the function of the
+ results object called fecth_all() */
 $sql = "SELECT `id`, `name`, `location`, `features`, `rate`,`image` FROM `hotels`";
-
-$result = mysqli_query($conn, $sql); //made the query to the database
-
-//get the accociatve array to use from the $result of every hotel entry
-
-$hotels = $result->fetch_all(MYSQLI_BOTH); //these are the rows as associative arrays, indicate as which type as a parameter
-
-mysqli_free_result($result);
-mysqli_close($conn);
-
+$result = mysqli_query($conn, $sql);
+$hotels = $result->fetch_all(MYSQLI_BOTH);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -106,12 +105,12 @@ mysqli_close($conn);
 
         }
 
-        .menu > div {
+        .menu>div {
             font-weight: bolder;
             border: none;
             width: fit-content;
             padding: 15px;
-            margin-left:15px;
+            margin-left: 15px;
         }
 
         .menu>div:hover {
@@ -123,30 +122,30 @@ mysqli_close($conn);
             display: flex;
             justify-content: center;
         }
-        footer{
-            height:150px;
+
+        footer {
+            height: 150px;
             display: flex;
             justify-content: center;
-            padding-top:120px;
+            padding-top: 120px;
             background-color: rgba(0, 0, 0, 0.15);
         }
-        .menu a{
+
+        .menu a {
             text-decoration: none;
-            color:black;
+            color: black;
         }
-        input{
+
+        input {
             border: none;
-            height:25px;
+            height: 25px;
             padding: 0 5px;
             background-color: rgba(0, 0, 0, 0.1);
         }
-      
-       
     </style>
 </head>
-
-
 <body>
+
     <header>
         <div class="logo"><img width='200px' id="logo" src="../includes/images/M (1).png" alt=""></div>
         <div class="menu">
@@ -156,18 +155,19 @@ mysqli_close($conn);
                 <a href="logout.php">Log Out</a>
             </div>
         </div>
-
     </header>
 
     <h1>Welcome <?php echo $_SESSION['firstname']; ?></h1>
 
-
-
     <section class="container">
         <?php
         $_SESSION['hotels'] = []; //make an empty array that can be accessed anywhere regardless of scope
-        foreach ($hotels as $hotel) { //make objects out of the data using the class
-            $newHotel = new Hotel( //the parameters is the value as per column in a row of entry
+
+        /*for each row of data from the database as $hotel, use the Hotel class to make objects that are 
+        instances of it and let the objects take in the data from the database using their keys as specified
+        as the parameters */
+        foreach ($hotels as $hotel) { 
+            $newHotel = new Hotel( 
 
                 $hotel['id'],
                 $hotel['name'],
@@ -177,9 +177,11 @@ mysqli_close($conn);
                 $hotel['image']
             );
 
-            array_push($_SESSION['hotels'], $newHotel); //every hotel object newly created is pushed into the session array
-        } //can now use this array of objects
-
+            /*after each object is created, push it into the session array created above then display the
+            objects' data using its getter methods*/
+            array_push($_SESSION['hotels'], $newHotel);
+        } 
+        ///////////////////////////////////////////////////////////////////////////////////////////-> USE THIS ON THE NEXT 2 PAGES
         foreach ($_SESSION['hotels'] as $hotel) : ?>
 
             <div class="hotel-wrapper">
@@ -196,20 +198,21 @@ mysqli_close($conn);
                     <p>R <?php echo $hotel->getRate() ?> per night pp</p>
 
                 </div>
-                <button id="view-button"><a href="view-hotel.php?id=<?php echo htmlspecialchars($hotel->getId())?>">View</a></button> <!--click 3 times-->
+                <!--when the button is pressed, echo on the url the id of that object which will now make this a get method onto the next page-->
+                <button id="view-button"><a href="view-hotel.php?id=<?php echo htmlspecialchars($hotel->getId()) ?>">View</a></button>
             </div>
-           
+
 
         <?php endforeach; ?>
 
 
     </section>
 
-<footer>
+    <footer>
 
-    <div class="footer-text">Copyright  2022 Mamo Moloi</div>
+        <div class="footer-text">Copyright 2022 Mamo Moloi</div>
 
-</footer>
+    </footer>
 </body>
 
 </html>

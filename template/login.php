@@ -1,9 +1,11 @@
 <?php
 
-$login = 0;
-$invalid = 0;
+/*these variables will be used as conditions to be met or not */
+$login = 0;//means false
+$invalid = 0; //means false
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') { 
 
     include "/MAMP/htdocs/OOP-Booking-App/includes/config/database.php";
     $firstname = $_POST['firstname'];
@@ -11,28 +13,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
     
-
-    //checking if this particular customer with this email and password exists
+    /*create and make a query to the table to CHECK for data entries where the email and the password entered
+    by the user matched those stored in the database*/
     $sql = "SELECT `*` FROM `customers` WHERE `email` = '$email' AND `password` ='$password' ";
-
     $result = mysqli_query($conn, $sql);
 
+    /*if matching results are found on the database, the proceed an start a session
+     and store following in session variables*/
     if ($result) {
-       
         $num = mysqli_num_rows($result);
         if ($num > 0) {
-            $login = 1;
-            //once the login is successful, the seesion starts
-
+            $login = 1;//means true (boolean type of a thing)
             session_start();
-            $_SESSION['firstname'] = $firstname;
-            $_SESSION['lastname'] = $lastname;
+            
+            //NB---->GET THE NAME AND LASTNAME FROM THE DATABASE AND STORE IN SESSION VARIABLES
             $_SESSION['email'] = $email;
             $_SESSION['password'] = $password;
-            header('location:homepage.php'); //header function redirects you to the next page if the login is sucessful
+            header('location:homepage.php');//then redirect the user to the homepage once the login is sucessful
 
         } else {
-            $invalid = 1;
+            /*if the login is not successful, the email or password or both do not match those in the database
+             then login is invalid*/
+            $invalid = 1; //the value 1 means true -->below an error will be displayed
         }
     }
 }
@@ -135,12 +137,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body>
     <?php
+    
 if($login){
        echo "You are succesffuly logged it";
     }
     ?>
-
+    
 <?php
+//if the login was not sucessful, this message will be displayed on the site
 if($invalid){
       echo "Incorrect details";
     }

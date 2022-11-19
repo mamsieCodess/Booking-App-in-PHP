@@ -2,11 +2,13 @@
 
 
 class Booking {
+    //fields
     private $customerId;
     private $hotelId;
     private $checkinDate;
     private $checkoutDate;
 
+    //constructor function
     function __construct($customerId,$hotelId,$checkinDate,$checkoutDate)
     {
         $this->customerId = $customerId;
@@ -14,6 +16,7 @@ class Booking {
         $this->checkinDate = $checkinDate;
         $this->checkoutDate = $checkoutDate;
     }
+    //methods
     public function setCustomerId($customerId){
         $this->customerId = $customerId;
         return $this;

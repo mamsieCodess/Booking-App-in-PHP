@@ -1,6 +1,6 @@
 <?php
 
-//link to the database and echo them in the app ?????
+
 class Customer{
     //fields
     private $firstname;
