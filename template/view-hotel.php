@@ -1,25 +1,17 @@
 <?php
 session_start();
 
-require_once __DIR__ .  "./../model/hotel.php"; //will be using the class
+require_once __DIR__ .  "./../model/hotel.php";
 
-//using a get request to link the data of the selected object
-
+/*if there is no post varibale storing the id data, to to the database and get a row of data 
+where it's id matches this id of the object from the previous page*/
 if (isset($_GET['id'])) {
-
     include "../includes/config/database.php";
-
     $id = mysqli_escape_string($conn, $_GET['id']);
-
-    //create a query to get the hotel data from table called hotels
     $sql = "SELECT `id`, `name`, `location`, `features`, `rate`,`image` FROM `hotels` WHERE `id` = $id";
+    $result = mysqli_query($conn, $sql); 
+    $hotel = $result->fetch_assoc();//an associative array of a row returend from the database that can be used
 
-    $result = mysqli_query($conn, $sql); //made the query to the database
-
-    $hotel = $result->fetch_assoc();
-
-
-    //make a new Booking object with the database
     $newHotel = new Hotel(
         $hotel['id'],
         $hotel['name'],
@@ -179,15 +171,15 @@ if (isset($_GET['id'])) {
         </ul>
 
         <?php
-        
-        $_SESSION['startDate'] = $_POST['startDate']; //session data will be used next page
+        //store data form this page in session variables so that it can be accessed on the next page
+        $_SESSION['startDate'] = $_POST['startDate']; 
         $_SESSION['endDate'] = $_POST['endDate'];
 
+        //if the submit button is clicked, then perform this code
         if (array_key_exists('submit', $_POST)) {
             $calculate =  $newHotel->calculateDays($_SESSION['startDate'], $_SESSION['endDate']);
-
             $amount = $newHotel->getRate() * $calculate;
-            $_SESSION['amount-due'] = $amount;//store it in a session so that it can be accessed on the next page
+            $_SESSION['amount-due'] = $amount;
         }
         ?>
         <form action="" method="POST" style="text-align:center">
@@ -200,7 +192,7 @@ if (isset($_GET['id'])) {
     </div>
    
     <div class="form2">
-        <form action="homepage" method="GET" id="form2">
+        <form action="" method="GET" id="form2">
         
             <button id="make-booking-button"><a href="booking-page.php?id=<?php echo htmlspecialchars($newHotel->getId())?>">Book</a></button>
             

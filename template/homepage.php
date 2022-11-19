@@ -181,7 +181,7 @@ $hotels = $result->fetch_all(MYSQLI_BOTH);
             objects' data using its getter methods*/
             array_push($_SESSION['hotels'], $newHotel);
         } 
-        ///////////////////////////////////////////////////////////////////////////////////////////-> USE THIS ON THE NEXT 2 PAGES
+         
         foreach ($_SESSION['hotels'] as $hotel) : ?>
 
             <div class="hotel-wrapper">

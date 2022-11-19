@@ -4,21 +4,15 @@ session_start();
 require_once __DIR__ .  "./../model/hotel.php";
 include "./../model/booking.php";
 
+/*if there is no post varibale storing the id data, to to the database and get a row of data 
+where it's id matches this id of the object from the previous page*/
 if (isset($_GET['id'])) {
 
-    //REPLACE ALL OF THIS WITH SESSION DATA !!!!!!!
-
     include "../includes/config/database.php";
-
     $id = mysqli_escape_string($conn, $_GET['id']);
-
-    //create a query to get the hotel data from table called hotels
     $sql = "SELECT `id`, `name`, `location`, `features`, `rate`,`image` FROM `hotels` WHERE `id` = $id";
-
     $result = $conn->query($sql);
-
     $hotel = $result->fetch_assoc(); //this the associative array that we can now use
-
 
     $newHotel = new Hotel(
         $hotel['id'],

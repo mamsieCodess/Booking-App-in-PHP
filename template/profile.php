@@ -61,9 +61,33 @@ session_start();
 
         input {
             border: none;
-            height: 25px;
+            height: 30px;
+            width:250px;
             padding: 0 5px;
             background-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        section{
+            display: flex;
+            justify-content:space-around;
+            font-size:larger;
+        }
+        section > div{
+            padding-right:15px;
+            background-color: white;
+            width:300px;
+            padding-left:20px; 
+            margin-bottom:20px;
+        
+        }
+        div > h4{
+            text-align: center;
+        }
+        #update-button{
+            font-weight: bolder;
+        }
+        #update-button:hover{
+            background-color: grey;
         }
     </style>
 </head>
@@ -72,7 +96,6 @@ session_start();
     <header>
         <div class="logo"><img width='200px' id="logo" src="../includes/images/M (1).png" alt=""></div>
         <div class="menu">
-            <div><input type="search" name="search" placeholder="search a hotel ..."></div>
             <div><a href="homepage.php">Home</a></div>
             <div class="logout-button">
                 <a href="logout.php">Log Out</a>
@@ -80,13 +103,30 @@ session_start();
         </div>
 
     </header>
-<h2>This is your profile</h2>
+<h1 style="padding-left:10px ">This is your profile</h1>
 <section>
     <div class="basic-details">
-        <h4>Your details</h4>
+        <h4>Your details:</h4>
+        <form action="profile.php" method="POST">
+                <label for="firstname">Firstname:</label><br>
+                <input type="text" name="firstname" value="">
+                <br><br>
+                <label for="lastname">Lastname:</label><br>
+                <input type="text" name="lastname" value="">
+                <br><br>
+                <label for="email">Email:</label><br>
+                <input type="email" name="email" value="">
+                <br><br>
+                <label for="password">Password:</label><br>
+                <input type="password" name="password" value="">
+                <br><br>
+                <input type="submit" name="update" value="Update" id="update-button" >
+                <br><br>
+
+            </form>
     </div>
     <div class="bookings">
-        <h4>Past and present bookings</h4>
+        <h4>Booking History</h4>
     </div>
 </section>
 
