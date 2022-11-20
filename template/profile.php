@@ -12,11 +12,11 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Profile</title>
     <style>
-        *{
+        * {
             box-sizing: border-box;
         }
 
-        body{
+        body {
             background-color: #eee7e7;
         }
 
@@ -62,32 +62,86 @@ session_start();
         input {
             border: none;
             height: 30px;
-            width:250px;
+            width: 250px;
             padding: 0 5px;
             background-color: rgba(0, 0, 0, 0.1);
         }
-        
-        section{
-            display: flex;
-            justify-content:space-around;
-            font-size:larger;
+
+        section {
+            justify-content: space-around;
+            font-size: larger;
         }
-        section > div{
-            padding-right:15px;
+
+        .basic-details {
+            padding-right: 15px;
             background-color: white;
-            width:300px;
-            padding-left:20px; 
-            margin-bottom:20px;
-        
+            width: 300px;
+            padding-left: 20px;
+            margin-bottom: 20px;
         }
-        div > h4{
+
+        .bookings {
+            width: fit-content;
+            padding-left: 20px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: white;
+        }
+
+        table {
+            font-size: smaller;
+        }
+
+        th {
+            background-color: #eee7e7;
+        }
+
+        td {
+            text-align: center;
+            padding-left: 5px;
+        }
+
+        div>h4 {
             text-align: center;
         }
-        #update-button{
+
+        #update-button {
             font-weight: bolder;
-        }
-        #update-button:hover{
+            border: none;
             background-color: grey;
+        }
+
+        #update-button>a {
+            font-size: larger;
+            padding: 5px;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        #update-button:hover {
+            background-color: #eee7e7;
+        }
+
+        #completed-button {
+            background-color: green;
+            padding: 5px;
+
+        }
+
+        #completed-button:hover {
+            background-color: #eee7e7;
+        }
+
+        #cancelled-button {
+            background-color: blue;
+            padding: 5px;
+        }
+
+        #cancelled-button:hover {
+            background-color: #eee7e7;
         }
     </style>
 </head>
@@ -103,37 +157,84 @@ session_start();
         </div>
 
     </header>
-<h1 style="padding-left:10px ">This is your profile</h1>
-<section>
-    <div class="basic-details">
-        <h4>Your details:</h4>
-        <form action="profile.php" method="POST">
+    <h1 style="padding-left:10px">This is your profile</h1>
+    <section>
+        <div class="basic-details">
+            <h4>Your details:</h4>
+            <form action="profile.php" method="POST">
                 <label for="firstname">Firstname:</label><br>
-                <input type="text" name="firstname" value="">
+                <input type="text" name="firstname" value="<?php echo $_SESSION['firstname']?>">
                 <br><br>
                 <label for="lastname">Lastname:</label><br>
-                <input type="text" name="lastname" value="">
+                <input type="text" name="lastname" value="<?php echo $_SESSION['lastname']?>">
                 <br><br>
                 <label for="email">Email:</label><br>
-                <input type="email" name="email" value="">
+                <input type="email" name="email" value="<?php echo $_SESSION['email']?>">
                 <br><br>
                 <label for="password">Password:</label><br>
-                <input type="password" name="password" value="">
+                <input type="password" name="password" value="<?php echo $_SESSION['password']?>">
                 <br><br>
-                <input type="submit" name="update" value="Update" id="update-button" >
+               <input type="submit" name="update" value="Update" id="update-button">
+                
+                <?php
+                if(isset($_POST['update'])){
+                    
+                    $name = $_POST['firstname'];
+                    $surname = $_POST['lastname'];
+                    $email = $_POST['email'];
+                    $password = $_POST['password'];
+
+                    include include "../includes/config/database.php";
+
+                    $sql = "UPDATE `customers` SET `firstname`='$name',`lastname`='$surname',`email`='$email',`password`='$password' ";
+
+                    $result = $conn->query($sql);
+                    if($result){
+                        echo 'sucessful';
+                    }else{
+                        echo $conn->error;
+                    }
+                }
+                ?>
                 <br><br>
 
             </form>
-    </div>
-    <div class="bookings">
-        <h4>Booking History</h4>
-    </div>
-</section>
+        </div>
+        <div class="bookings">
+            <h4>Booking History</h4>
+            <div class="history">
+
+                <table>
+                    <tr>
+                        <th>Customer Id:</th>
+                        <th>Hotel Id:</th>
+                        <th>Completed:</th>
+                        <th>Cancelled:</th>
+                    </tr>
+                    
+                    <?php
+                    include "../includes/config/database.php";
+                    $sql = "SELECT `*`FROM `bookings`";
+                    $result = mysqli_query($conn, $sql);
+                    $booking = $result->fetch_assoc();
+                 
+                    ?>
+                    
+                        <tr>
+                            <td><?php echo $booking['customerId']?></td>
+                            <td><?php echo $booking['hotel_id']?></td>
+                            <td><?php echo $booking['completed']?></td>
+                            <td><?php echo $booking['cancelled']?></td>
+                            <td><a id="completed-button" href="">Completed</a></td>
+                            <td><a id="cancelled-button" href="">Cancel</a></td>
+                        </tr>
+                </table>
+            </div>
+        </div>
+    </section>
 
     <footer>
-
         <div class="footer-text">Copyright 2022 Mamo Moloi</div>
-
     </footer>
 
 
