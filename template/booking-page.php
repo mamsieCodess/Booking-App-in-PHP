@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-require_once __DIR__ .  "./../model/hotel.php";
 include "./../model/booking.php";
 
 /*if there is no post varibale storing the id data, to to the database and get a row of data 
@@ -12,16 +11,7 @@ if (isset($_GET['id'])) {
     $id = mysqli_escape_string($conn, $_GET['id']);
     $sql = "SELECT `id`, `name`, `location`, `features`, `rate`,`image` FROM `hotels` WHERE `id` = $id";
     $result = $conn->query($sql);
-    $hotel = $result->fetch_assoc(); //this the associative array that we can now use
-
-    $newHotel = new Hotel(
-        $hotel['id'],
-        $hotel['name'],
-        $hotel['location'],
-        $hotel['features'],
-        $hotel['rate'],
-        $hotel['image']
-    );
+    $hotel = $result->fetch_assoc(); //this the associative array that we can use
 }
 
 ?>
@@ -42,54 +32,15 @@ if (isset($_GET['id'])) {
             background-color: #EAE1E1;
         }
 
-        .image-container {
-            max-width: max-content;
-            margin: 0 auto;
-        }
 
         .container {
-            width: 50%;
+            width:50%;
             height: max-content;
             margin: 15px auto;
             background-color: white;
-            padding: 10px;
+            padding: 15px;
             text-align: center;
 
-        }
-
-        .image-container>img {
-            height: 200px;
-            width: 100%;
-        }
-
-        h3 {
-            text-align: center;
-        }
-
-        li {
-            list-style-type: square;
-        }
-
-        h4 {
-            margin-left: 10px;
-        }
-
-        input {
-            border: none;
-            height: 25px;
-            padding: 0 5px;
-            background-color: #EAE1E1;
-        }
-
-        #book-button {
-            width: 50%;
-            padding: 5px;
-            font-weight: bolder;
-            background-color: rgb(173, 161, 161);
-        }
-
-        #book-button:hover {
-            background-color: #EAE1E1;
         }
 
         .alert {
@@ -133,9 +84,11 @@ if (isset($_GET['id'])) {
             background-color: rgba(0, 0, 0, 0.15);
         }
 
-        .menu a {
+        a {
             text-decoration: none;
             color: black;
+            background-color: #EAE1E1;
+            padding:10px;
         }
     </style>
 </head>
@@ -144,7 +97,6 @@ if (isset($_GET['id'])) {
     <header>
         <div class="logo"><img width='200px' id="logo" src="../includes/images/M (1).png" alt=""></div>
         <div class="menu">
-            <div><input type="search" name="search" placeholder="search a hotel ..."></div>
             <div><a href="profile.php">Profile</a></div>
             <div class="logout-button">
                 <a href="logout.php">Log Out</a>
@@ -155,6 +107,7 @@ if (isset($_GET['id'])) {
 
     <div class="alert">
         <?php
+        //this for creating the booking
         //assigning session variables to variables then making a booking
 
         $checkIn = $_SESSION['startDate'];
@@ -186,45 +139,20 @@ if (isset($_GET['id'])) {
 
     </div>
 
-    <h2 style="text-align: center;">This is your booking confirmation for:</h2>
-
-    <div class="image-container">
-        <img src="<?php echo $newHotel->getImage() ?>">
-        <h3>Hotel: <?php echo $newHotel->getName(); ?></h3>
-    </div>
-
+    <h2 style="text-align: center;">This is your booking confirmation:</h2>
 
     <div class="container">
-        <h4>Details:</h4>
-        <form action="booking-page.php" method="POST">
-            <label for="firstname">Firstname:</label>
-            <input type="text" name="firstname" value="<?php echo $_SESSION['firstname']; ?>"><br><br>
+        <h3>Receipt:</h3>
 
-            <label for="firstname">Lastname:</label>
-            <input type="text" name="lastname" B value="<?php echo $_SESSION['lastname']; ?>"><br><br>
+        <p>This is to confirm that <strong><?php echo $_SESSION['firstname'] . ' ' . $_SESSION['lastname'] ?></strong> <?php echo ' has a booking at the ' . $hotel['name'] . ' hotel.' ?> </p>
 
-            <label for="email"> Email Address:</label>
-            <input type="email" name="email" value="<?php echo $_SESSION['email']; ?>"><br><br>
-
-            <label for="checkinDate">Checkin Date:</label>
-            <input type="date" name="checkinDate" value="<?php echo $_SESSION['startDate']; ?>"><br><br>
-
-            <label for="checkoutDate">Checkout Date:</label>
-            <input type="date" name="checkoutDate" value="<?php echo $_SESSION['endDate']; ?>"><br><br>
-
-            <p>Your booking confirmation can be downloaded here</p>
-
-            <input type="submit" value="Checkout" name="checkout" id="book-button">
-
-        </form>
-
-
+        <p>From the <?php echo $checkIn . ' to the ' . $checkOut ?></p>
+        <p>Booking number: <strong> <?php echo $customerId ?></strong></p>
+        <p>Use it as your reference for any inquries</p>
 
     </div>
     <footer>
-
         <div class="footer-text">Copyright 2022 Mamo Moloi</div>
-
     </footer>
 
 

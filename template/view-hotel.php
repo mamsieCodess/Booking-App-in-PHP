@@ -6,6 +6,7 @@ require_once __DIR__ .  "./../model/hotel.php";
 /*if there is no post varibale storing the id data, to to the database and get a row of data 
 where it's id matches this id of the object from the previous page*/
 if (isset($_GET['id'])) {
+    $_SESSION['bookedHotel'] = [];
     include "../includes/config/database.php";
     $id = mysqli_escape_string($conn, $_GET['id']);
     $sql = "SELECT `id`, `name`, `location`, `features`, `rate`,`image` FROM `hotels` WHERE `id` = $id";
@@ -20,6 +21,8 @@ if (isset($_GET['id'])) {
         $hotel['rate'],
         $hotel['image']
     );
+    array_push($_SESSION['bookedHotel'],$newHotel);
+
 }
 ?>
 

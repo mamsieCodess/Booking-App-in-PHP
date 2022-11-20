@@ -136,12 +136,6 @@ $hotels = $result->fetch_all(MYSQLI_BOTH);
             color: black;
         }
 
-        input {
-            border: none;
-            height: 25px;
-            padding: 0 5px;
-            background-color: rgba(0, 0, 0, 0.1);
-        }
     </style>
 </head>
 <body>
@@ -149,7 +143,6 @@ $hotels = $result->fetch_all(MYSQLI_BOTH);
     <header>
         <div class="logo"><img width='200px' id="logo" src="../includes/images/M (1).png" alt=""></div>
         <div class="menu">
-            <div><input type="search" name="search" placeholder="search a hotel ..."></div>
             <div><a href="profile.php">Profile</a></div>
             <div class="logout-button">
                 <a href="logout.php">Log Out</a>
