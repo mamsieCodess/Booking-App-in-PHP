@@ -2,6 +2,34 @@
 session_start();
 //this page will be used to update and delete info from the database
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    include "../includes/config/database.php";
+    $storedEmail =  $_SESSION['email'];
+    $firstname = $_POST['firstname'];
+    $lastname = $_POST['lastname'];
+    $email = $_POST['email'];
+
+
+
+    $sql = "UPDATE `customers` SET `firstname`='$firstname',`lastname`='$lastname',`email`='$email' WHERE `email` =  '$storedEmail' ";
+    $result = $conn->query($sql);
+
+    if ($result) {
+
+        echo 'Records updated';
+
+        $sql = "SELECT `*` FROM `user_details` WHERE `firstname` = '$firstname'";
+        $result = $conn->query($sql);
+        $updated = $result->fetch_assoc();
+        $_SESSION['firstname'] = $updated['firstname'];
+        $_SESSION['lastname'] = $updated['lastname'];
+        $_SESSION['email'] = $updated['email'];
+    } else {
+        echo 'Error ' . $conn->error;
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -163,74 +191,21 @@ session_start();
             <h4>Your details:</h4>
             <form action="profile.php" method="POST">
                 <label for="firstname">Firstname:</label><br>
-                <input type="text" name="firstname" value="<?php echo $_SESSION['firstname']?>">
+                <input type="text" name="firstname" value="<?php echo $_SESSION['firstname'];?>">
                 <br><br>
                 <label for="lastname">Lastname:</label><br>
-                <input type="text" name="lastname" value="<?php echo $_SESSION['lastname']?>">
+                <input type="text" name="lastname" value="<?php echo $_SESSION['lastname'];?>">
                 <br><br>
                 <label for="email">Email:</label><br>
-                <input type="email" name="email" value="<?php echo $_SESSION['email']?>">
-                <br><br>
-                <label for="password">Password:</label><br>
-                <input type="password" name="password" value="<?php echo $_SESSION['password']?>">
+                <input type="email" name="email" value="<?php echo $_SESSION['email'];?>">
                 <br><br>
                <input type="submit" name="update" value="Update" id="update-button">
                 
-                <?php
-                if(isset($_POST['update'])){
-                    
-                    $name = $_POST['firstname'];
-                    $surname = $_POST['lastname'];
-                    $email = $_POST['email'];
-                    $password = $_POST['password'];
-
-                    include include "../includes/config/database.php";
-
-                    $sql = "UPDATE `customers` SET `firstname`='$name',`lastname`='$surname',`email`='$email',`password`='$password' ";
-
-                    $result = $conn->query($sql);
-                    if($result){
-                        echo 'sucessful';
-                    }else{
-                        echo $conn->error;
-                    }
-                }
-                ?>
                 <br><br>
 
             </form>
         </div>
-        <div class="bookings">
-            <h4>Booking History</h4>
-            <div class="history">
-
-                <table>
-                    <tr>
-                        <th>Customer Id:</th>
-                        <th>Hotel Id:</th>
-                        <th>Completed:</th>
-                        <th>Cancelled:</th>
-                    </tr>
-                    
-                    <?php
-                    include "../includes/config/database.php";
-                    $sql = "SELECT `*`FROM `bookings`";
-                    $result = mysqli_query($conn, $sql);
-                    $booking = $result->fetch_assoc();
-                 
-                    ?>
-                    
-                        <tr>
-                            <td><?php echo $booking['customerId']?></td>
-                            <td><?php echo $booking['hotel_id']?></td>
-                            <td><?php echo $booking['completed']?></td>
-                            <td><?php echo $booking['cancelled']?></td>
-                            <td><a id="completed-button" href="">Completed</a></td>
-                            <td><a id="cancelled-button" href="">Cancel</a></td>
-                        </tr>
-                </table>
-            </div>
-        </div>
+ 
     </section>
 
     <footer>
