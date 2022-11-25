@@ -10,8 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $lastname = $_POST['lastname'];
     $email = $_POST['email'];
 
-
-
     $sql = "UPDATE `customers` SET `firstname`='$firstname',`lastname`='$lastname',`email`='$email' WHERE `email` =  '$storedEmail' ";
     $result = $conn->query($sql);
 
@@ -19,12 +17,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         echo 'Records updated';
 
-        $sql = "SELECT `*` FROM `user_details` WHERE `firstname` = '$firstname'";
+        $sql = "SELECT `*` FROM `customers` WHERE `firstname` = '$firstname'";
         $result = $conn->query($sql);
         $updated = $result->fetch_assoc();
         $_SESSION['firstname'] = $updated['firstname'];
         $_SESSION['lastname'] = $updated['lastname'];
         $_SESSION['email'] = $updated['email'];
+
     } else {
         echo 'Error ' . $conn->error;
     }
