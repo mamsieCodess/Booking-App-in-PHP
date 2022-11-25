@@ -1,9 +1,5 @@
 <?php
-
-/*these variables are used as CONDITIONS to be passed or failed
- initially they are both 0*/
-$success = 0;
-$user = 0;
+$user = 0; //initially the user doesn't exists
 
 /* if a request method of post is found on the form then include
 the database file */
@@ -18,50 +14,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    /*firstly CREATE and MAKE a query to the table where the column email
-     is equal to the email value inputed by a user*/
+     //firstly check if the person with such details exist
+
     $sql = "SELECT `*` FROM `customers` WHERE `email` = '$email' ";
     $result = mysqli_query($conn, $sql);
 
-    /*if there is a row of data returned or FOUND on the table then the value of user
-    increases to one and stops the data from being re-entered*/
-    if ($result) {
-        $num = mysqli_num_rows($result);
-        if ($num > 0) {
-            $user = 1;
+  
+    if ($result->num_rows > 0) {
+        $user = 1; //they match, it means such a user already exists
 
-            /*or else if there is no such row of data found, create a query
-            to insert the values inputted by the user on the form fields*/
-        } else {
-            $sql = "INSERT INTO `customers`(firstname,lastname,email,password)
-            VALUES ('$firstname','$lastname','$email','$password')";
+        } else { 
+        $sql = "INSERT INTO `customers`(firstname,lastname,email,password)
+        VALUES (?,?,?,?) "; //placeholders
+           $stmt = $conn->prepare($sql); //prepared statement
+           $stmt->bind_param('ssss', $firstname, $lastname, $email, $password); //bind parameters
+            //then start a session with the entered details in session variables
+            session_start();
 
-            //then make the query to the table
-            $result = mysqli_query($conn, $sql);
-
-            /*if the query is successful and the data is successfully entered,
-            increase the value of the success variable to one meaning true so
-            the code that follows is executed unlike when it was 0*/
-            if ($result) {
-                $success = 1;
-
-                /*then start a session and store the form values into session variables
-            they are accessible regardless of scope*/
-                session_start();
                 $_SESSION['firstname'] = $firstname;
                 $_SESSION['lastname'] = $lastname;
                 $_SESSION['email'] = $email;
                 $_SESSION['password'] = $password;
                 /*then redirect the user to the home page using the header function
                 or else display out the error*/
+              
+                $stmt->execute();
                 header('location:template/homepage.php');
-            } else {
-                die(mysqli_error($conn));
+          
             }
         }
-    }
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -164,21 +145,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 
 <body>
-    <?php
-    /*if the same email is used by the user to sign up, this message will be displayed
-    the variable is used as a condition because it is equal to 1*/
-    if ($user) {
-        echo 'Sorry, this email is taken';
-    }
-    ?>
+<?php if ($user > 1){echo 'This email already exists';} ?>
 
-    <?php
-    /*the success variable is used to indicate that the condition of not finding a similar email
-    address in the database is met and that the inserting of the entered data was successful */
-    if ($success) {
-        echo 'You are sucessfully signed up';
-    }
-    ?>
 
     <header>
         <div class="logo"><img width='250px' id="logo" src="./includes/images/M (1).png" alt=""></div>
