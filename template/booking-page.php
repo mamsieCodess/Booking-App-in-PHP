@@ -9,7 +9,7 @@ if (isset($_GET['id'])) {
 
     include "../includes/config/database.php";
     $id = mysqli_escape_string($conn, $_GET['id']);
-    $sql = "SELECT `id`, `name`, `location`, `features`, `rate`,`image` FROM `hotels` WHERE `id` = $id";
+    $sql = "SELECT `hotel_id`, `name`, `location`, `amenities`, `daily_rate`, `thumbnail`, `images`, `hotel_description`, `refund_avaialbility` FROM `hotels` WHERE `hotel_id` = $id";
     $result = $conn->query($sql);
     $hotel = $result->fetch_assoc(); //this the associative array that we can use
 }
@@ -23,6 +23,12 @@ if (isset($_GET['id'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booking Page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Lexend+Giga:wght@400;600&family=Montserrat+Alternates&display=swap"
+      rel="stylesheet"
+    />
     <style>
         * {
             box-sizing: border-box;
@@ -124,9 +130,7 @@ if (isset($_GET['id'])) {
         $checkIn = $newBooking->getCheckinDate();
         $checkOut = $newBooking->getCheckoutDate();
 
-        $sql = "INSERT INTO `bookings` (customerId,hotel_Id,checkIn,checkout,total_cost)
-        
-    VALUES ('$customerId','$hotelId','$checkIn','$checkOut','$totalCost')";
+        $sql = "INSERT INTO `bookings`(`customer_id`, `hotel_id`, `check_in`, `check_out`, `amount_due`) VALUES ('$customerId','$hotelId','$checkIn','$checkOut','$totalCost')";
 
         include "../includes/config/database.php";
         $result = mysqli_query($conn, $sql);

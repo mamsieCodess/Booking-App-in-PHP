@@ -4,18 +4,24 @@ class Hotel{
     private $id;
     private $name;
     private $location;
-    private $features;
-    private $rate;
-    private $image;
+    private $amenities;
+    private $daily_rate;
+    private $thumbnail;
+    private $images;
+    private $description;
+    private $refundability;
 
     //constructor
-    public function __construct($id,$name,$location,$features,$rate,$image){
+    public function __construct($id,$name,$location,$amenities,$daily_rate,$thumbnail,$images,$description,$refundability){
         $this->id = $id;
         $this->name = $name;
         $this->location = $location;
-        $this->features = $features;
-        $this->rate = $rate;
-        $this->image = $image;
+        $this->amenities = $amenities;
+        $this->daily_rate = $daily_rate;
+        $this->thumbnail = $thumbnail;
+        $this->images = $images;
+        $this->description = $description;
+        $this->refundability = $refundability;
     }
     
     //methods
@@ -42,27 +48,49 @@ class Hotel{
    public function getLocation(){
    return $this->location;
    }
-   public function setFeatures($features){
-    $this->features = $features;
+   public function setamenities($amenities){
+    $this->amenities = $amenities;
     return $this;
    } 
-   public function getFeatures(){
-   return $this->features;
+   public function getamenities(){
+   return $this->amenities;
    }
-   public function setRate($rate){
-    $this->rate = $rate;
+   public function setdaily_rate($daily_rate){
+    $this->daily_rate = $daily_rate;
     return $this;
    } 
-   public function getRate(){
-   return $this->rate;
+   public function getdaily_rate(){
+   return $this->daily_rate;
+   }
+   public function setThumbnail($thumbnail){
+    $this->thumbnail = $thumbnail;
+    return $this;
+   } 
+   public function getThumbnail(){
+   return $this->thumbnail;
    }
 
-   public function setImage($image){
-    $this->image = $image;
+   public function setImages($images){
+    $this->images = $images;
     return $this;
    } 
-   public function getImage(){
-   return $this->image;
+   public function getImages(){
+   return $this->images;
+   }
+   public function setDescription($description){
+    $this->description = $description;
+    return $this;
+   } 
+   public function getDescription(){
+   return $this->description;
+   }
+
+   public function setRefundability($refundability){
+    $this->refundability = $refundability;
+    return $this;
+   } 
+   public function getRefundability(){
+   return $this->refundability;
    }
 
    function calculateDays($startDate, $endDate) {
@@ -75,8 +103,8 @@ class Hotel{
     return abs(round($difference / 86400));
 }
 
-function amountDue($rate,$days){
-    return $rate * $days;
+function amountDue($daily_rate,$days){
+    return $daily_rate * $days;
 }
 
 
